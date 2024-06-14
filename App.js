@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as SplashScreen from "expo-splash-screen"
+import {useFonts} from 'expo-font';
+import { useCallback } from 'react';
+import {FONTS} from './constants';
+import AppNavigation from './navigations/AppNavigation';
+
+
+SplashScreen.preventAutoHideAsync();
 export default function App() {
+  const [FontsLoaded] = useFonts(FONTS);
+  const onLayoutRootView = useCallback(async ()=>{
+    if(FontsLoaded){
+      await SplashScreen.hideAsync();
+    }
+  },[FontsLoaded]);
+
+  if(!FontsLoaded){
+    return null;
+  };
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    
+    <SafeAreaProvider onLayout={onLayoutRootView}>
+       <AppNavigation/>
+
+    </SafeAreaProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
