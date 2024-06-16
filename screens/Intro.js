@@ -1,11 +1,13 @@
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, Image } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants";
 import { FONTS, images } from "../constants";
 import Button from "../components/Button";
+import { useNavigation } from "@react-navigation/native";
 
-const Intro = ({navigation}) => {
+const Intro = () => {
+  const navigation = useNavigation();
   return (
     <ImageBackground source={images.background} style={{ flex: 1 }}>
       <StatusBar hidden />
@@ -25,19 +27,19 @@ const Intro = ({navigation}) => {
               resizeMode="cover"
               style={{
                 width: (SIZES.width - 32) / 2 - 8,
-                height: (SIZES.width - 32) / 2 - 8,
+                height: (SIZES.width - 32) / 2 + 26,
                 bottom: 17,
               }}
             />
           </View>
-
+          
           <View style={styles.circleView}>
             <Image
               source={images.girl2}
               resizeMode="cover"
               style={{
                 width: (SIZES.width - 32) / 2 - 8,
-                height: (SIZES.width - 32) / 2 - 8,
+                height: (SIZES.width - 32) / 2 + 26,
                 bottom: 16,
               }}
             />
@@ -47,11 +49,11 @@ const Intro = ({navigation}) => {
           <View style={styles.circleView}>
             <Image
               source={images.guy2}
-              resizeMode="cover"
+              resizeMode="conver"
               style={{
                 width: (SIZES.width - 32) / 2 - 8,
-                height: (SIZES.width - 32) / 2 - 8,
-                bottom: 16,
+                height: (SIZES.width - 32) / 2 + 26,
+                bottom: 17,
               }}
             />
           </View>
@@ -69,15 +71,16 @@ const Intro = ({navigation}) => {
               resizeMode="cover"
               style={{
                 width: (SIZES.width - 32) / 2 - 8,
-                height: (SIZES.width - 32) / 2 - 8,
-                bottom: 6,
-                left: 42,
+                height: (SIZES.width - 32) / 2 + 26,
+                bottom: 17,
+                
+                right: 30,
               }}
             />
           </View>
         </View>
       </View>
-      <View style={StyleSheet.buttonContainer}>
+      <View style={styles.buttonContainer}>
         <Text style={styles.buttonTitle}>
           Enjoy the new experience of chatting with global friends
         </Text>
@@ -86,19 +89,13 @@ const Intro = ({navigation}) => {
         </Text>
         <Button
           title="Get Started"
-          onPress={() => navigation.navigate("Welcome")}
+          onPress={() => navigation.navigate('Welcome')}
           style={{
             marginVertical: 24,
             width: SIZES.width - 64,
           }}
         />
-        <View
-          styles={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 16,
-          }}
-        >
+        <View style={styles.poweredByContainer}>
           <Text
             style={{
               fontSize: 12,
@@ -106,14 +103,13 @@ const Intro = ({navigation}) => {
               fontFamily: "medium",
             }}
           >
-            {" "}
             Powered by
           </Text>
           <Text
             style={{
               ...FONTS.h3,
               color: COLORS.secondary,
-              fontFamily: "semibold",
+              fontFamily: "semiBold",
             }}
           >
             WaveChat
@@ -133,12 +129,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
   },
-
   buttonTitle: {
     fontSize: 24,
     fontWeight: "bold",
     color: COLORS.black,
-    testAlign: "center",
+    textAlign: "center",
     margin: 16,
   },
   buttonSubTitle: {
@@ -148,6 +143,10 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   circleViewContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  circleView: {
     width: (SIZES.width - 32) / 2 - 8,
     height: (SIZES.width - 32) / 2 - 8,
     borderRadius: 9999,
@@ -155,6 +154,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 32,
+  },
+  poweredByContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 16,
   },
 });
 

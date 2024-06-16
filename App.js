@@ -3,7 +3,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from "expo-splash-screen"
 import {useFonts} from 'expo-font';
 import { useCallback } from 'react';
-import {FONTS} from './constants';
+import {FONTS} from './constants/fonts';
 import AppNavigation from './navigations/AppNavigation';
 
 
