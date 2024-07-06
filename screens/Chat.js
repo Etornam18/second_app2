@@ -17,18 +17,19 @@ const Chat = () => {
         paddingVertical:16,
         backgroundColor:COLORS.white,
         borderBottomColor:COLORS.gray,
-        alignItems:'center',
-        backgroundColor:COLORS.primaryWhite,
-        elevation:3,
+        borderBottomWidth:.2
+      }}> 
+         <View>
+          
+         </View>
 
-      }}>
-
-       {/*Render Chats*/} 
-
-       {/*Render Input Bar */}
+      
        
 
       </View>
+       {/*Render Chats*/} 
+
+       {/*Render Input Bar */}
 
     </SafeAreaView>
   )
