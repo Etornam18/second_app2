@@ -126,7 +126,7 @@ export const stories= [
     }
 ];
 
-export const messsagesData = [
+export const messagesData = [
     {
         id: "1",
         fullName: "Jhon Smith",

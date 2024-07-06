@@ -13,19 +13,20 @@ import { COLORS, SIZES, icons } from "../constants"; // Ensure icons is imported
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { messagesData } from "../data"; // Ensure the correct import of messages data
-import { messsagesData } from "../data/messagesData";
+
+
 
 const Chats = ({ navigation }) => {
-  const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState(messagesData);
+  const [search, setSearch] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState(messagesData);
 
   const handleSearch = (text) => {
     setSearch(text);
     const filteredData = messagesData.filter((user) =>
-      user.fullName.toLowerCase().includes(text.toLowerCase())
+    user.fullName.toLowerCase().includes(text.toLowerCase())
     );
-    setFilteredData(filteredData);
-  };
+    setFilteredUsers(filteredData);
+  }
 
   const renderItem = ({ item, index }) => (
     <TouchableOpacity
@@ -107,7 +108,7 @@ const Chats = ({ navigation }) => {
 
         {/* Render Flat List for content */}
         <FlatList
-          data={messsagesData}
+          data={filteredUsers}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
