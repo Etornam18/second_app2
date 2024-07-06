@@ -7,6 +7,7 @@ import {FONTS} from './constants/fonts';
 import AppNavigation from './navigations/AppNavigation';
 
 
+
 SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [FontsLoaded] = useFonts(FONTS);
