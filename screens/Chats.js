@@ -13,6 +13,7 @@ import { COLORS, SIZES, icons } from "../constants"; // Ensure icons is imported
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { messagesData } from "../data"; // Ensure the correct import of messages data
+import { messsagesData } from "../data/messagesData";
 
 const Chats = ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -46,12 +47,17 @@ const Chats = ({ navigation }) => {
         />
       </View>
 
-      <View style={styles.userInfo}>
+      
         <View style={styles.userInfoContainer}>
           <Text style={styles.userName}>{item.fullName}</Text>
-          <Text style={styles.lastMessage}>{item.lastMessage}</Text>
+          <Text style={styles.lastSeen }>{item.lastMessage}</Text>
         </View>
-        <View>
+
+        <View style={{
+          position:"absolute",
+          right:4,
+          alignItems:"center",
+        }}>
           <Text style={styles.lastMessageTime}>{item.lastMessageTime}</Text>
           <View>
             <TouchableOpacity
@@ -59,9 +65,9 @@ const Chats = ({ navigation }) => {
                 width: 20,
                 height: 20,
                 borderRadius: 10,
-                backgroundColor: item.messageInQueue
-                  ? COLORS.primary
-                  : "transparent",
+                backgroundColor:  item.messageInQueue
+                ? COLORS.primary
+                : "transparent",
                 justifyContent: "center",
                 alignItems: "center",
                 marginTop: 12,
@@ -69,9 +75,11 @@ const Chats = ({ navigation }) => {
             >
               <Text style={styles.messageInQueue}>{item.messageInQueue}</Text>
             </TouchableOpacity>
-          </View>
+          </View>  
         </View>
-      </View>
+          
+      
+      
     </TouchableOpacity>
   );
 
@@ -99,7 +107,7 @@ const Chats = ({ navigation }) => {
 
         {/* Render Flat List for content */}
         <FlatList
-          data={filteredData}
+          data={messsagesData}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
@@ -193,6 +201,11 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     marginBottom: 4,
   },
+  lastSeen:{
+    fontSize:14,
+    color: COLORS.secondaryGray,
+  },
+  
   lastMessage: {
     fontSize: 14,
     color: COLORS.secondary,
