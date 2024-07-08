@@ -1,9 +1,62 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View , TouchableOpacity, Image} from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { COLORS } from '../constants'
+import { COLORS, FONTS, icons, images, SIZES } from '../constants'
+import { Feather ,FontAwesome} from '@expo/vector-icons'
+import { Bubble, GiftedChat } from 'react-native-gifted-chat'
+const Chat = ({navigation}) => { const [messages,setMessages] = useState([])
+  const [ inputMessage, setInputMessage] = useState("");
+  
+  const handleInputText =(text) => {
+    setInputMessage(text);
+  }
+  const renderMessage=(props)=>{
+    const {currentMessage} = props;
+    if (currentMessage.user._id ===1){
+      return(<View style={{ 
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"flex-end"
 
-const Chat = () => {
+      }}>
+        <Bubble
+        {...props}
+        wrapperStyle={{
+          right:{
+            backgroundColor:COLORS.primary,
+            marginRight:12,
+            marginVertical:12
+          }
+        }}
+        textStyle={{
+          right:{
+            color:COLORS.white
+          }
+        }}/>
+      </View>
+    
+     )
+        
+      
+    }
+
+  };
+}
+ 
+  //handle input message
+  const submitHandler= () => {
+    const message = {
+    _id:Math.random().toString(36).toString(7),
+    text:inputMessage,
+    createdAt:new Date().getTime(),
+    user:{ _id:1}
+  };
+  setMessages:{(previousMessage)=>
+    GiftedChat.append(previousMessage,[message])
+  };
+  setInputMessage("")}
+    
+
   return (
     <SafeAreaView style={{
       flex:1,
@@ -19,22 +72,181 @@ const Chat = () => {
         borderBottomColor:COLORS.gray,
         borderBottomWidth:.2
       }}> 
-         <View>
+           <View style={{
+              flexDirection:'row',
+              alignItems: 'center',
+            }}>
+                <TouchableOpacity
+                  onPress={()=>navigation .goBack()}
+                  style={{marginHorizontal:12}}>
+                    <Image
+                    source={icons.back}
+                    resizeMode='contain'
+                    style={{
+                      height:24,
+                      width:24,
+                      tintColor:COLORS.black
+                    }}/>
+                </TouchableOpacity>
+
+                <View>
+                  <View style={{
+                    position:"absolute",
+                    bottom:0,
+                    right:4,
+                    width:10,
+                    height:10,
+                    borderRadius:5,
+                    backgroundColor: COLORS.primary,
+                    zIndex:999,
+                    borderWidth:999,
+                    borderWidth:2,
+                    borderColor:COLORS.white
+                  }}/>
+                  <Image
+                  source={images.user1}
+                  resizeMode='contain'
+                  style={{
+                    height:48,
+                    width:48,
+                    borderRadius:999
+                  }}/>
+                </View>
+
+                <View style={{marginLeft:16}}>
+                  <Text style={{
+                    ...FONTS.h4,
+                    color: COLORS.black
+                  }}>Sebana Rudiger</Text>
+                  <Text style={{
+                    fontSize:12,
+                    color: COLORS.gray,
+                    fontFamily:'regular',
+                    color:COLORS.primary
+                  }}>Online</Text>
+                </View>
           
          </View>
 
-      
+         <View style={{
+          flexDirection:'row',
+          alignItems:"center",
+         }}>
+          <TouchableOpacity style={{
+            marginHorizontal:16 
+          }}>
+            <Feather
+              name="video"
+              size={24} 
+              color={COLORS.gray}/>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Feather
+              name="video"
+              size={24} 
+              color={COLORS.gray}/>
+          </TouchableOpacity>
+         </View>
        
 
       </View>
        {/*Render Chats*/} 
+       <GiftedChat
+        messages={messages}
+        renderInputToolbar={()=>{ return null}}
+        user={{ 
+          _id:1
+        }}
+        minInputToolbarHeight={0}
+        renderMessage={renderMessage}/>
 
        {/*Render Input Bar */}
+        <View style={styles.inputContainer}>
+          <View style={styles.inputMessageContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Type a message..."
+              placeholderTextColor={COLORS.black}
+              value={inputMessage}
+              onChangeText={handleInputText}  
+            />
+            <View style={{
+              flexDirection:"row",
+              alignItems:"center"
 
+            }}>
+              <TouchableOpacity style={{
+                marginHorizontal:8
+              }}>
+                <Image 
+                source={icons.camera}
+                rewizeMode='contain'
+                style={{
+                  height:20,
+                  width:20,
+                  tintColor: COLORS.gray
+                }}/>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image 
+                source={icons.stickyNote}
+                rewizeMode='contain'
+                style={{
+                  height:20,
+                  width:20,
+                  tintColor: COLORS.gray
+                }}/>
+              </TouchableOpacity>
+
+            </View>
+
+            <TouchableOpacity
+            onPress={submitHandler} 
+            style={styles.sendButton}>
+                <FontAwesome
+                  name="send"
+                  size={22}
+                  color={COLORS.primary}/>
+            </TouchableOpacity>
+          </View>
+
+        </View>
     </SafeAreaView>
   )
-}
+
+
+
+
+const styles = StyleSheet.create({
+  inputContainer:{
+    backgroundColor:COLORS.white,
+    height:72,
+    alignItems:'center',
+    justifyContent: 'center',
+
+  },
+  inputMessageContainer:{
+    height:54,
+    width:SIZES.width -48,
+    flexDirection:"row",
+    justifyContent:"center",
+    backgroundColor:COLORS.secondaryWhite,
+    borderRadius:16,
+    alignItems:"center",
+    borderColor:"rgba(128,128,128,.4)",
+    borderWidth:1,
+  },
+  input:{
+    color:COLORS.black,
+    flex:1,
+    paddingHorizontal:10
+  },
+  sendButton:{
+    backgroundColor:COLORS.white,
+    padding:4,
+    borderRadius:999,
+    marginHorizontal:6
+  }
+})
 
 export default Chat
-
-const styles = StyleSheet.create({})

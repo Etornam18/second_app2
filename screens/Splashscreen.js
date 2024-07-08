@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, StyleSheet, Image, Text } from 'react-native';
+import { SafeAreaView, View, StyleSheet, Image, Text,Dimensions } from 'react-native';
 
 const Splashscreen = () => {
   useEffect(() => {
@@ -12,7 +12,7 @@ const Splashscreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.imageContainer}>
+      <View >
         <Image
           style={styles.image}
           source={require('../assets/animated.gif')}
@@ -31,13 +31,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#818AF9',
   },
-  imageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  
   image: {
-    height: 280,
-    width: 270,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
  
 });
