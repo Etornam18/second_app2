@@ -1,9 +1,9 @@
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { COLORS, FONTS, icons, images, SIZES } from '../constants';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
-import { COLORS, FONTS, icons, images, SIZES } from '../constants';
 
 const Chat = ({ navigation }) => {
   const [messages, setMessages] = useState([]);
@@ -17,18 +17,20 @@ const Chat = ({ navigation }) => {
     const { currentMessage } = props;
     if (currentMessage.user._id === 1) {
       return (
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          marginVertical: 8,
-        }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+          }}
+        >
           <Bubble
             {...props}
             wrapperStyle={{
               right: {
                 backgroundColor: COLORS.primary,
                 marginRight: 12,
-                marginBottom: 6,
+                marginVertical: 12,
               },
             }}
             textStyle={{
@@ -40,13 +42,14 @@ const Chat = ({ navigation }) => {
         </View>
       );
     }
+    return <Bubble {...props} />;
   };
 
   const submitHandler = () => {
     const message = {
-      _id: Math.random().toString(36).substring(7),
+      _id: Math.random().toString(36).substr(2, 9),
       text: inputMessage,
-      createdAt: new Date(),
+      createdAt: new Date().getTime(),
       user: { _id: 1 },
     };
     setMessages((previousMessages) => GiftedChat.append(previousMessages, [message]));
@@ -54,45 +57,95 @@ const Chat = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginHorizontal: 12 }}>
-          <Image
-            source={icons.back}
-            resizeMode='contain'
-            style={{
-              height: 24,
-              width: 24,
-              tintColor: COLORS.black,
-            }}
-          />
-        </TouchableOpacity>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.white,
+      }}
+    >
+      {/* Render Header */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingHorizontal: 16,
+          paddingVertical: 16,
+          backgroundColor: COLORS.white,
+          borderBottomColor: COLORS.gray,
+          borderBottomWidth: 0.2,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginHorizontal: 12 }}>
+            <Image
+              source={icons.back}
+              resizeMode="contain"
+              style={{
+                height: 24,
+                width: 24,
+                tintColor: COLORS.black,
+              }}
+            />
+          </TouchableOpacity>
 
-        {/* User Info */}
-        <View style={styles.userInfo}>
-          <View style={styles.avatarContainer}>
+          <View>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 4,
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                backgroundColor: COLORS.primary,
+                zIndex: 999,
+                borderWidth: 2,
+                borderColor: COLORS.white,
+              }}
+            />
             <Image
               source={images.user1}
-              resizeMode='contain'
+              resizeMode="contain"
               style={{
                 height: 48,
                 width: 48,
                 borderRadius: 999,
               }}
             />
-            {/* Online Indicator */}
-            <View style={styles.onlineIndicator}></View>
           </View>
 
           <View style={{ marginLeft: 16 }}>
-            <Text style={FONTS.h4}>Sebana Rudiger</Text>
-            <Text style={styles.statusText}>Online</Text>
+            <Text
+              style={{
+                ...FONTS.h4,
+                color: COLORS.black,
+              }}
+            >
+              Sebana Rudiger
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: COLORS.primary,
+                fontFamily: 'regular',
+              }}
+            >
+              Online
+            </Text>
           </View>
         </View>
 
-        {/* Actions */}
-        <View style={styles.actions}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
           <TouchableOpacity style={{ marginHorizontal: 16 }}>
             <Feather name="video" size={24} color={COLORS.gray} />
           </TouchableOpacity>
@@ -101,16 +154,20 @@ const Chat = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* Chat Messages */}
+      {/* Render Chats */}
       <GiftedChat
         messages={messages}
-        renderInputToolbar={() => null}
-        user={{ _id: 1 }}
+        renderInputToolbar={() => {
+          return null;
+        }}
+        user={{
+          _id: 1,
+        }}
+        minInputToolbarHeight={0}
         renderMessage={renderMessage}
       />
 
-      {/* Input Bar */}
+      {/* Render Input Bar */}
       <View style={styles.inputContainer}>
         <View style={styles.inputMessageContainer}>
           <TextInput
@@ -120,12 +177,16 @@ const Chat = ({ navigation }) => {
             value={inputMessage}
             onChangeText={handleInputText}
           />
-          {/* Additional Options */}
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
             <TouchableOpacity style={{ marginHorizontal: 8 }}>
               <Image
                 source={icons.camera}
-                resizeMode='contain'
+                resizeMode="contain"
                 style={{
                   height: 20,
                   width: 20,
@@ -136,7 +197,7 @@ const Chat = ({ navigation }) => {
             <TouchableOpacity>
               <Image
                 source={icons.stickyNote}
-                resizeMode='contain'
+                resizeMode="contain"
                 style={{
                   height: 20,
                   width: 20,
@@ -145,7 +206,7 @@ const Chat = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          {/* Send Button */}
+
           <TouchableOpacity onPress={submitHandler} style={styles.sendButton}>
             <FontAwesome name="send" size={22} color={COLORS.primary} />
           </TouchableOpacity>
@@ -156,44 +217,6 @@ const Chat = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: COLORS.white,
-    borderBottomColor: COLORS.gray,
-    borderBottomWidth: 0.2,
-  },
-  userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatarContainer: {
-    position: 'relative',
-  },
-  onlineIndicator: {
-    position: 'absolute',
-    bottom: 0,
-    right: 4,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: COLORS.primary,
-    zIndex: 999,
-    borderWidth: 2,
-    borderColor: COLORS.white,
-  },
-  statusText: {
-    fontSize: 12,
-    color: COLORS.gray,
-    fontFamily: 'regular',
-    color: COLORS.primary,
-  },
-  actions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   inputContainer: {
     backgroundColor: COLORS.white,
     height: 72,
@@ -208,7 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondaryWhite,
     borderRadius: 16,
     alignItems: 'center',
-    borderColor: 'rgba(128,128,128,0.4)',
+    borderColor: 'rgba(128, 128, 128, 0.4)',
     borderWidth: 1,
   },
   input: {
